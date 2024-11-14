@@ -20,6 +20,10 @@ public class Scrolling : MonoBehaviour
 
     // 2 – Список детей с рендерером
     private List<Transform> backgroundPart;
+
+    public bool isUsingOffset = false;
+    public float offsetX;
+    public float offsetY;
     void Start()
     {
         // Только для бесконечного фона
@@ -71,7 +75,7 @@ public class Scrolling : MonoBehaviour
             {
                 // Проверить, находится ли ребенок (частично) перед камерой
                 if (firstChild.position.x < Camera.main.transform.position.x)
-                {
+                { 
                     // Если ребенок уже слева от камеры
                     SpriteRenderer firstChildRenderer = firstChild.GetComponent<SpriteRenderer>();
 
@@ -89,8 +93,14 @@ public class Scrolling : MonoBehaviour
                             Vector3 lastSize = lastChildRenderer.bounds.size;
 
                             // Перемещаем первый объект после последнего
-                            firstChild.position = new Vector3(lastPosition.x + lastSize.x, firstChild.position.y, firstChild.position.z);
-
+                            if (isUsingOffset)
+                            {
+                                firstChild.position = new Vector3(lastPosition.x + lastSize.x + offsetX, offsetY * (Random.value - 0.5f) * 2f, firstChild.position.z);
+                            }
+                            else
+                            {
+                                firstChild.position = new Vector3(lastPosition.x + lastSize.x, firstChild.position.y, firstChild.position.z);
+                            }
                             // Поставить первый объект в конец списка
                             backgroundPart.Remove(firstChild);
                             backgroundPart.Add(firstChild);

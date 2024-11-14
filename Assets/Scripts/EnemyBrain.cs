@@ -27,18 +27,7 @@ public class EnemyBrain : MonoBehaviour
     // 1 - Отключить все
     void Start()
     {
-        hasSpawn = false;
-
-        // Отключить
-        // -- коллайдеры
-        collider.enabled = false;
-        // -- Перемещение
-        move.enabled = false;
-        // -- стрельбу
-        foreach (Weapon weapon in weapons)
-        {
-            weapon.enabled = false;
-        }
+        Restart();
     }
 
     void Update()
@@ -62,7 +51,8 @@ public class EnemyBrain : MonoBehaviour
             // 4 – Выход за рамки камеры? Уничтожить игровой объект.
             if (spriteRenderer.isVisible == false)
             {
-                Destroy(gameObject);
+                transform.position += new Vector3(20, 0, 0);
+                Restart();
             }
         }
     }
@@ -84,4 +74,19 @@ public class EnemyBrain : MonoBehaviour
         }
     }
 
+    public void Restart()
+    {
+        hasSpawn = false;
+
+        // Отключить
+        // -- коллайдеры
+        collider.enabled = false;
+        // -- Перемещение
+        move.enabled = false;
+        // -- стрельбу
+        foreach (Weapon weapon in weapons)
+        {
+            weapon.enabled = false;
+        }
+    }
 }

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.SearchService;
 using UnityEngine;
 
 public class Health : MonoBehaviour
@@ -25,7 +26,11 @@ public class Health : MonoBehaviour
         if (hp <= 0)
         {
             // Смерть!
-            Destroy(gameObject);
+            if (isEnemy)
+            {
+                GetComponent<EnemyBrain>().Restart();
+                transform.position += new Vector3(20, 0, 0);
+            }
         }
     }
 
